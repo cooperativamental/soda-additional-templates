@@ -70,7 +70,8 @@ export function SignMessageButton() {
             .catch(() => {
               dispatch({ type: Status.ERROR });
             });
-        }}
+        }
+        }
         disabled={state.status === Status.SIGNING}
       />
       {state.status === Status.SIGNED && <Text>{state.signature}</Text>}
