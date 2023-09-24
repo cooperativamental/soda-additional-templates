@@ -1,10 +1,10 @@
 import React, {useCallback, useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, Text, View ,SafeAreaView , View, TextInput} from 'react-native';
+import {ScrollView, StyleSheet, Text ,SafeAreaView , View, TextInput} from 'react-native';
 import * as anchor from '@coral-xyz/anchor';
 import {PublicKey} from '@solana/web3.js';
 
 import {Program} from '@coral-xyz/anchor';
-import {ProgramSource} from '../utils/type';
+
 
 import {
  {{#each instructions}}
@@ -15,7 +15,7 @@ import {
  {{/each}}
  {{/each}}
 } 
-from '../components/CallInstructionComponents/CallInstructions'
+from '../components/CallInstructions/CallInstruction'
 
 type CounterAccount = {
   count: anchor.BN;
@@ -23,8 +23,8 @@ type CounterAccount = {
   bump: number;
 };
 
-export default function MainScreen() {
-  cosnt [selectedAccount , setSelectedAccount] = useState(true)
+export function HomeScreen() {
+  const [selectedAccount , setSelectedAccount] = useState(true)
 
   return (
     <>
@@ -56,7 +56,7 @@ export default function MainScreen() {
                 {{/each}}
                 <View style={styles.button}>
                   <Call_{{name}}_Instruction
-                  anchorWallet={anchorWallet}
+                  
                 />
                 </View>
                 {{/each}}  
@@ -67,11 +67,7 @@ export default function MainScreen() {
             </>
           ) : null}
         </ScrollView>
-        {selectedAccount ? (
-          <DisconnectButton title="Disconnect wallet" />
-        ) : (
-          <ConnectButton title="Connect wallet" />
-        )}
+        
       </View>
     </>
   );

@@ -5,11 +5,11 @@ import React, {useState, useCallback} from 'react';
 import {Button} from 'react-native';
 import * as anchor from '@coral-xyz/anchor';
 
-import {ProgramSource} from '../../utils/type';
+
 
 
 type ButtonProps = Readonly<{
-  anchorWallet: anchor.Wallet;
+ 
 }>;
 
 {{#each instructions}}
@@ -30,7 +30,7 @@ const {{name}}handler_for_{{../name}} = (e:any) => {
 
 {{#each instructions}}
 function Call_{{name}}_Instruction({
-  anchorWallet,
+  
 }: ButtonProps) {
 
   {{#each accounts}}
