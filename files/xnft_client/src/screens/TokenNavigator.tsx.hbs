@@ -26,7 +26,9 @@ const Stack = createStackNavigator<RootStackParamList>();
 
 function FullScreenLoadingIndicator() {
   return (
-    <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+    <View style={
+      { flex: 1, alignItems: "center", justifyContent: "center" }
+    }>
       <ActivityIndicator />
     </View>
   );
@@ -71,14 +73,18 @@ function List({
 
   const ItemSeparatorComponent = () => (
     <View
-      style={{ marginVertical: 8, borderColor: "#eee", borderBottomWidth: 1 }}
+      style={
+        { marginVertical: 8, borderColor: "#eee", borderBottomWidth: 1 }
+      }
     />
   );
 
   return (
     <Screen>
       <FlatList
-        style={{ flex: 1 }}
+        style={
+          { flex: 1 }
+        }
         data={data}
         keyExtractor={(item) => item.id}
         ItemSeparatorComponent={ItemSeparatorComponent}
@@ -117,7 +123,9 @@ function Detail({
   return (
     <Screen>
       <View style={tw`bg-yellow-100 items-center justify-center p-4`}>
-        <Image source={{ uri: item.image }} style={tw`w-8 h-8 rounded m-4`} />
+        <Image source={
+          { uri: item.image }
+        } style={tw`w-8 h-8 rounded m-4`} />
         <Text style={tw`font-bold text-lg`}>{item.name}</Text>
         <Text style={tw`font-bold text-lg`}>Symbol: {item.symbol}</Text>
         <Text style={tw`font-bold text-lg`}>
@@ -175,20 +183,26 @@ const forSlide: StackCardStyleInterpolator = ({
 export const TokenListNavigator = () => {
   return (
     <Stack.Navigator
-      screenOptions={{
+      screenOptions={
+        {
         animationEnabled: true,
         cardStyleInterpolator: forSlide,
-      }}
+      }
+      }
     >
       <Stack.Screen
         name="List"
         component={List}
-        options={{ title: "Token List" }}
+        options={
+          { title: "Token List" }
+        }
       />
       <Stack.Screen
         name="Detail"
         component={Detail}
-        options={{ title: "Token Detail" }}
+        options={
+          { title: "Token Detail" }
+        }
       />
     </Stack.Navigator>
   );

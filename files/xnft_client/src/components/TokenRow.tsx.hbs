@@ -11,8 +11,12 @@ type Props = {
 export function TokenRow({ id, name, price, imageUrl, onPress }: Props) {
   return (
     <Pressable onPress={() => onPress(id)} style={styles.container}>
-      <View style={{ flexDirection: "row", alignItems: "center" }}>
-        <Image source={{ uri: imageUrl }} style={styles.image} />
+      <View style={
+        { flexDirection: "row", alignItems: "center" }
+      }>
+        <Image source={
+          { uri: imageUrl }
+        } style={styles.image} />
         <Text style={styles.name}>{name}</Text>
       </View>
       <Text style={styles.price}>${price}</Text>

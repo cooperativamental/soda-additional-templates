@@ -32,12 +32,16 @@ export function ExamplesScreens() {
       <Section title="Local Image Import">
         <Image
           source={require("../../assets/icon.png")}
-          style={{ width: 50, height: 50 }}
+          style={
+            { width: 50, height: 50 }
+          }
         />
         <LearnMoreLink url="https://reactnative.dev/docs/images#static-image-resources" />
       </Section>
       <Section title="Custom Font">
-        <Text style={{ fontFamily: "Inter_900Black" }}>
+        <Text style={
+          { fontFamily: "Inter_900Black" }
+        }>
           Inter 900 Black Font
         </Text>
         <LearnMoreLink url="https://docs.expo.dev/guides/using-custom-fonts/#using-a-google-font" />
