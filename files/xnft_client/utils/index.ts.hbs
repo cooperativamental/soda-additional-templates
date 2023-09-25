@@ -1,0 +1,18 @@
+import { useState, useEffect } from "react";
+import ReactXnft, {
+  LocalStorage,
+  usePublicKey,
+  useConnection,
+  SOLANA_CONNECT
+} from "react-xnft";
+import { PublicKey, Connection } from "@solana/web3.js";
+import { Program } from "@project-serum/anchor";
+import { IDL as ProgramSource } from "./type";
+
+export function getProgramSource() : Program<ProgramSource>{
+    return new Program<ProgramSource>(ProgramSource ,ProgramSource_Address, window.xnft.solana)
+}
+
+const ProgramSource_Address = new PublicKey(
+  ""
+);

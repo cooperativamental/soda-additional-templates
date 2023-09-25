@@ -1,16 +1,22 @@
+import {
+  usePublicKey,
+  useConnection,
+  useNavigation,
+  View,
+  Image,
+  Text,
+  Button,
+  Tab,
+  List,
+  ListItem,
+} from "react-xnft";
+import { PublicKey, Transaction } from "@solana/web3.js";
+import { BN } from "@project-serum/anchor";
+import * as anchor from "@project-serum/anchor";
+import {
+  getProgramSource,
+} from "../../../utils/index";
 
-import {Program} from '@coral-xyz/anchor';
-import {PublicKey} from '@solana/web3.js';
-import React, {useState, useCallback} from 'react';
-import {Button} from 'react-native';
-import * as anchor from '@coral-xyz/anchor';
-
-
-
-
-type ButtonProps = Readonly<{
- 
-}>;
 
 {{#each instructions}}
 //for {{name}} instructions
@@ -28,37 +34,50 @@ const {{name}}handler_for_{{../name}} = (e:any) => {
 {{/each}}
 {{/each}}
 
+const ProgramSource_Address = new PublicKey(
+  ""
+);
+
+//get All the PDA
 {{#each instructions}}
-function Call_{{name}}_Instruction({
-  
-}: ButtonProps) {
+{{#each accounts}}
+{{#if isMut}}
+{{#unless isSigner}}
+export function {{name}}PDA_for_{{../name}}() {
+  const [{{name}}PDA_for{{../name}}] = PublicKey.findProgramAddressSync(
+    [Buffer.from("") , {/*rest add according to you*/}],
+    ProgramSource_Address
+  )
+  return {{name}}PDA_for_{{../name}}
+}
+{{/unless}}
+{{/if}}
+{{/each}}
+{{/each}}
 
-  {{#each accounts}}
-  {{#if isMut}}
-  {{#unless isSigner}}
-  const {
-    {{name}}PDA_for_{{../name}}
-  } = ("")
-  {{/unless}}
-  {{/if}}
-  {{/each}}
 
+{{#each instructions}}
+export async function Call_{{name}}_Instruction {
+  const client = getProgramSource();
 
-  return (
-    <Button
-      title={`Call {{name}} Instructions`}
-    />
-  );
+  const Call_{{name}}_Instruction_tx = client.methods
+  client.methods
+    .{{name}}({{#each args}}{{name}}_for_{{../name}}{{/each}})
+    .accounts({
+      {{#each accounts}}
+      {{#if isMut}}
+      {{#unless isSigner}}
+      {{name}} : {{name}}PDA_for_{{../name}},
+      {{/unless}}
+      {{/if}}
+      {{/each}}
+    })
+    .instruction()
+
+    return Call_{{name}}_Instruction_tx
+
 }
 
 {{/each}}
 
-export {
-  {{#each instructions}}
-  Call_{{name}}_Instruction,
-  {{#each args}}
-  {{name}}_for_{{../name}},
-  {{name}}handler_for_{{../name}},
-  {{/each}}
-  {{/each}}
-}
+
