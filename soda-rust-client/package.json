@@ -1,0 +1,16 @@
+{
+  "name": "soda-rust-client",
+  "version": "0.1.0",
+  "description": "generate a cli rust client from an anchor idl",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "solana",
+    "rust",
+    "cli"
+  ],
+  "author": "€$¥ <dev@krk.finance>",
+  "license": "ISC"
+}
