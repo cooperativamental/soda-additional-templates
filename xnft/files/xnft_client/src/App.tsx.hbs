@@ -2,11 +2,11 @@ import * as React from "react";
 import { registerRootComponent } from "expo";
 import { RecoilRoot } from "recoil";
 import { ActivityIndicator, View } from "react-native";
-import { NavigationContainer } from "@react-navigation/native";
+import { NavigationContainer, ThemeProvider , DefaultTheme, DarkTheme} from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useFonts, Inter_900Black } from "@expo-google-fonts/dev";
-
+import { useColorScheme } from "react-native";
 import { ExamplesScreens } from "./screens/ExamplesScreen";
 import {  HomeScreen} from "./screens/HomeScreen";
 import { KnowMoreAboutSoda } from "./screens/KnowMoreAboutSoda";
@@ -25,9 +25,9 @@ function TabNavigator() {
         name="Home"
         component={HomeScreen}
         options={
-          {tabBarLabel: "Home",
+          {tabBarLabel: "Soda",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
+            <MaterialCommunityIcons name="bottle-soda-classic-outline" color={'white'} size={size} />
           )}
         }
       />
@@ -36,9 +36,9 @@ function TabNavigator() {
         component={KnowMoreAboutSoda}
         options={
           {headerShown: false,
-          tabBarLabel: "Soda",
+          tabBarLabel: "About Us",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="bottle-soda-classic-outline" size={24} color="black" />
+            <MaterialCommunityIcons name="account" size={24} color={'white'} />
           )}
         }
       />
@@ -48,7 +48,7 @@ function TabNavigator() {
         options={
           {tabBarLabel: "Examples",
           tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="home" color={color} size={size} />
+            <MaterialCommunityIcons name="home" color={'white'} size={size} />
           )}
         }
       />
@@ -57,6 +57,7 @@ function TabNavigator() {
 }
 
 function App() {
+  const scheme = useColorScheme();
   let [fontsLoaded] = useFonts({
     Inter_900Black,
   });
@@ -73,7 +74,7 @@ function App() {
 
   return (
     <RecoilRoot>
-      <NavigationContainer>
+      <NavigationContainer theme={scheme === 'dark' ? DarkTheme : DefaultTheme}>
         <TabNavigator />
       </NavigationContainer>
     </RecoilRoot>
