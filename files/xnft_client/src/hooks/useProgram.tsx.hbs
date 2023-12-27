@@ -1,0 +1,65 @@
+import {AnchorProvider, Program} from '@coral-xyz/anchor';
+import {Connection, PublicKey} from '@solana/web3.js';
+import {useMemo} from 'react';
+import * as anchor from '@coral-xyz/anchor';
+import { ProgramSource } from '../../utils/type';
+import idl from '../../utils/idl.json'
+import {useSolanaProvider} from '../hooks/xnft-hooks'
+
+export function useProgram (
+    connection : Connection
+) {
+
+    const ProgramId = useMemo(() => {
+    return new PublicKey('CFmihRWxuAqHWDW6V2wimb5QPcEzqTCCkcGcCP7VfVWZ');
+  }, []);
+
+  const provider = useSolanaProvider()
+
+  {{#each instructions}}
+  {{#each accounts}}
+  {{#if isMut}}
+  {{#unless isSigner}}
+  const [{{name}}PDA_for_{{../name}}] = useMemo(()=>{
+    const {{name}}Seed_for_{{../name}} = ""
+    return anchor.web3.PublicKey.findProgramAddressSync(
+      [{{name}}Seed_for_{{../name}}],
+      ProgramId,
+    )
+  },[ProgramId])
+  {{/unless}}
+  {{/if}}
+  {{/each}}
+  {{/each}}
+
+  const program = useMemo(() => {
+    if (!provider) {
+      return null;
+    }
+
+    return new Program<ProgramSource>(
+      idl as ProgramSource,
+      ProgramId,
+      provider,
+    );
+  }, [ProgramId, provider]);
+
+   const value = useMemo(
+    () => ({
+      program: program,
+      programId: ProgramId,
+      {{#each instructions}}
+      {{#each accounts}}
+      {{#if isMut}}
+      {{#unless isSigner}}
+      {{name}}PDA_for_{{../name}} : {{name}}PDA_for_{{../name}},
+      {{/unless}}
+      {{/if}}
+      {{/each}}
+      {{/each}}
+    }),
+    [program, ProgramId],
+  );
+
+  return value;
+}

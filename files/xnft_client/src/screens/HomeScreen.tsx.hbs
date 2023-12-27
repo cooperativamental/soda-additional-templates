@@ -1,5 +1,6 @@
-import React, {useCallback, useEffect, useState} from 'react';
-import {ScrollView, StyleSheet, Text ,SafeAreaView , View, TextInput} from 'react-native';
+import * as React from "react";
+import {useCallback, useEffect, useState} from 'react';
+import {ScrollView, StyleSheet, Text ,SafeAreaView , View, TextInput , Button} from 'react-native';
 import * as anchor from '@coral-xyz/anchor';
 import {PublicKey} from '@solana/web3.js';
 
@@ -17,12 +18,6 @@ import {
 } 
 from '../components/CallInstructions/CallInstruction'
 
-type CounterAccount = {
-  count: anchor.BN;
-  authority: PublicKey;
-  bump: number;
-};
-
 export function HomeScreen() {
   const [selectedAccount , setSelectedAccount] = useState(true)
 
@@ -37,11 +32,11 @@ export function HomeScreen() {
              
 
                 {{#each instructions}}
+                 <Text style={styles.text}>
+                 Call {{./name}} Instruction
+                </Text>
                 {{#each args}}
                 <View style={styles.button}>
-                  <Text style={styles.text}>
-                    {{../name}} Instruction
-                  </Text>
                   <TextInput>
                     style={styles.input}
                     placeholder = {`Enter {{name}}`}
@@ -52,15 +47,10 @@ export function HomeScreen() {
                   {{name}}_for_{{../name}}
                 } 
                   </TextInput>
-                </View>
                 {{/each}}
-                <Button
-                  title={`Call {{name}} Instructions`}
-                />
-                </View>
-                {{/each}}  
 
-          
+                <Call_{{name}}_Instruction/> 
+                {{/each}}
                </ScrollView>
               </SafeAreaView>
             </>

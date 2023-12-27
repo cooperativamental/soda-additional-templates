@@ -1,23 +1,22 @@
+import * as React from "react";
+import { View, Image, Text } from "react-native";
+import { PublicKey, Transaction, Connection } from "@solana/web3.js";
+import * as anchor from "@coral-xyz/anchor";
+import { Program } from "@coral-xyz/anchor";
+import { useState, useCallback } from "react";
+import { Button } from "react-native";
+import { useProgram } from "../../hooks/useProgram";
 import {
-  usePublicKey,
-  useConnection,
-  useNavigation,
-  View,
-  Image,
-  Text,
-  Button,
-  Tab,
-  List,
-  ListItem,
-} from "react-xnft";
-import { PublicKey, Transaction } from "@solana/web3.js";
-import { BN } from "@project-serum/anchor";
-import * as anchor from "@project-serum/anchor";
-import {
-  getProgramSource,
-} from "../../../utils/index";
+  usePublicKeys,
+  useSolanaConnection,
+  useSolanaProvider,
+} from "../../hooks/xnft-hooks";
+import { ProgramSource } from "../../../utils/type";
 
-
+type ButtonProps = Readonly<{
+  anchorWallet: anchor.Wallet;
+}>;
+  
 {{#each instructions}}
 //for {{name}} instructions
 {{#each args}}
@@ -34,50 +33,89 @@ const {{name}}handler_for_{{../name}} = (e:any) => {
 {{/each}}
 {{/each}}
 
-const ProgramSource_Address = new PublicKey(
-  ""
-);
-
-//get All the PDA
 {{#each instructions}}
-{{#each accounts}}
-{{#if isMut}}
-{{#unless isSigner}}
-export function {{name}}PDA_for_{{../name}}() {
-  const [{{name}}PDA_for{{../name}}] = PublicKey.findProgramAddressSync(
-    [Buffer.from("") , {/*rest add according to you*/}],
-    ProgramSource_Address
+  const Call_{{name}}_Instruction=()=> {
+  const XnftPublickey = usePublicKeys();
+  const [signingInProgress, setSigningInProgress] = useState(false);
+  const connection = useSolanaConnection();
+  const {program, programId} = useProgram(
+    connection,
+  );
+
+  {{#each accounts}}
+  {{#if isMut}}
+  {{#unless isSigner}}
+  const {
+    {{name}}PDA_for_{{../name}}
+  } = useProgram(
+    connection,
   )
-  return {{name}}PDA_for_{{../name}}
+  {{/unless}}
+  {{/if}}
+  {{/each}}
+
+
+  const execute_{{./name}}_function = useCallback(
+    async (program: Program<ProgramSource>, authorityPublicKey: PublicKey) => {
+      // Call the increment function of the program.
+      const signature = await program.methods
+        .{{name}}({{#each args}}{{name}}_for_{{../name}}{{/each}})
+        .accounts({
+          {{#each accounts}}
+          {{#if isMut}}
+          {{#unless isSigner}}
+          {{name}} : {{name}}PDA_for_{{../name}},
+          {{/unless}}
+          {{/if}}
+          {{/each}}
+          authority: XnftPublickey,
+        })
+        .rpc();
+
+      return signature;
+    },
+    {{#each accounts}}
+    {{#if isMut}}
+    {{#unless isSigner}}
+    [{{name}}PDA_for_{{../name}}]
+    {{/unless}}
+    {{/if}}
+    {{/each}}
+  );
+
+  return (
+    <Button
+      title={`Call {{name}} Instructions`}
+      disabled={signingInProgress || !program}
+      onPress={async () => {
+        if (signingInProgress || !program) {
+          return;
+        }
+        setSigningInProgress(true);
+        try {
+          const signature = await execute_{{./name}}_function(
+            program,
+            XnftPublickey,
+          );
+
+        } finally {
+          setSigningInProgress(false);
+        }
+      }}
+    />
+  );
 }
-{{/unless}}
-{{/if}}
-{{/each}}
+
 {{/each}}
 
-
-{{#each instructions}}
-export async function Call_{{name}}_Instruction {
-  const client = getProgramSource();
-
-  const Call_{{name}}_Instruction_tx = client.methods
-  client.methods
-    .{{name}}({{#each args}}{{name}}_for_{{../name}}{{/each}})
-    .accounts({
-      {{#each accounts}}
-      {{#if isMut}}
-      {{#unless isSigner}}
-      {{name}} : {{name}}PDA_for_{{../name}},
-      {{/unless}}
-      {{/if}}
-      {{/each}}
-    })
-    .instruction()
-
-    return Call_{{name}}_Instruction_tx
-
+export {
+  {{#each instructions}}
+  Call_{{name}}_Instruction,
+  {{#each args}}
+  {{name}}_for_{{../name}},
+  {{name}}handler_for_{{../name}},
+  {{/each}}
+  {{/each}}
 }
-
-{{/each}}
 
 
