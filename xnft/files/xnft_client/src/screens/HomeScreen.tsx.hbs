@@ -29,7 +29,7 @@ export function HomeScreen() {
          <ScrollView>
         <View style={Cardstyles.card}>
           <Text style={Cardstyles.title}>IDL Inspector</Text>
-          <Text style={Cardstyles.text}>Program Name - Counter Program</Text>
+          <Text style={Cardstyles.underlineText}>Program Name - {{name}}</Text>
           <Text style={
             {fontSize : 14 , fontWeight : 'bold' , marginTop :15  , color : 'white'}
             }>
@@ -127,7 +127,14 @@ const Cardstyles = StyleSheet.create({
     fontWeight: "bold",
     fontSize : 14,
     marginTop : 5,
-  }
+  },
+   underlineText: {
+    fontSize: 14,
+    marginTop: 5,
+    fontWeight: "bold",
+    color: "white",
+    textDecorationLine : "underline"
+  },
 });
 
 const styles = StyleSheet.create({

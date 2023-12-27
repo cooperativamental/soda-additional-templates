@@ -1,5 +1,5 @@
 import * as React from "react";
-import { View, Image, Text } from "react-native";
+import { View, Image, Text , StyleSheet , Pressable } from "react-native";
 import { PublicKey, Transaction, Connection } from "@solana/web3.js";
 import * as anchor from "@coral-xyz/anchor";
 import { Program } from "@coral-xyz/anchor";
@@ -84,10 +84,7 @@ const {{name}}handler_for_{{../name}} = (e:any) => {
   );
 
   return (
-    <Button
-      title={`Call {{name}} Instructions`}
-      disabled={signingInProgress || !program}
-      onPress={async () => {
+      <Pressable style={styles.button} onPress={async () => {
         if (signingInProgress || !program) {
           return;
         }
@@ -101,12 +98,33 @@ const {{name}}handler_for_{{../name}} = (e:any) => {
         } finally {
           setSigningInProgress(false);
         }
-      }}
-    />
+      }}>
+      <Text style={styles.text}>Call {{name}} Instructions</Text>
+    </Pressable>
   );
 }
 
 {{/each}}
+
+const styles = StyleSheet.create({
+  button: {
+    alignItems: 'center',
+    justifyContent: 'center',
+    paddingVertical: 8,
+    paddingHorizontal: 32,
+    borderRadius: 4,
+    elevation: 3,
+    backgroundColor: 'white',
+    marginTop : 10
+  },
+  text: {
+    fontSize: 16,
+    lineHeight: 21,
+    fontWeight: 'bold',
+    letterSpacing: 0.25,
+    color: 'black',
+  },
+});
 
 export {
   {{#each instructions}}
