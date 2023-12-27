@@ -1,0 +1,29 @@
+{
+  "name": "soda-md-docs",
+  "version": "0.1.0",
+  "description": "generate markdown docs from an anchor idl",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "rimraf ./docs && node index.js",
+    "start": "tsc && node dist/app.js",
+    "lint": "eslint . --ext .ts"
+  },
+  "keywords": [
+    "solana",
+    "md",
+    "markdown",
+    "cli"
+  ],
+  "type": "module",
+  "author": "€$¥ <dev@krk.finance>",
+  "license": "ISC",
+  "devDependencies": {
+    "@types/node": "^20.9.1",
+    "markdown-table": "^3.0.3",
+    "prettier": "3.1.0",
+    "rimraf": "^5.0.5",
+    "ts-node": "^10.9.1",
+    "typescript": "^5.2.2"
+  }
+}
